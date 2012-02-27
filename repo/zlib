@@ -1,0 +1,22 @@
+function ulpm_pack_installed {
+	ulpm_link_with z
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://zlib.net/zlib-1.2.6.tar.bz2 zlib-1.2.6
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	make
+	make install
+}
+
+function ulpm_pack_uninstall {
+	make configure
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make)

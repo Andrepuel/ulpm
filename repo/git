@@ -1,0 +1,23 @@
+function ulpm_pack_installed {
+	ulpm_check_command "git --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://repo.or.cz/w/git.git/snapshot/HEAD.tar.gz git
+}
+
+function ulpm_pack_install {
+	make configure
+	ulpm_dotconfigure --with-curl=$ulpm_prefix --with-openssl=$ulpm_prefix/ssl --with-gitconfig=$ulpm_prefix/etc/gitconfig --with-gitattributes=$ulpmm_prefix/etc/gitattributes --with-zlib=$ulpm_prefix
+	make all doc
+	make install
+}
+
+function ulpm_pack_uninstall {
+	make configure
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make curl openssl autoconf)

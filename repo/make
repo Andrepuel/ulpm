@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "make -v"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2 make-3.82
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	./build.sh
+	./make install
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=()

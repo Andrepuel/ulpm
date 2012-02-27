@@ -1,0 +1,104 @@
+. ./user.sh 
+
+function ulpm_help {
+	echo "Usage"
+	echo "$0 list				Lists repository"
+	echo "$0 install pack-name [force]	Installs pack-name"
+	echo "$0 uninstall pack-name		Uninstall pack-name"
+}
+
+function ulpm_list {
+	for i in repo/*; do
+		. $i
+		echo -n $(echo -n $i | cut -d/ -f2)
+		ulpm_pack_installed
+		if [ $? -eq 0 ]; then
+			echo " (installed)"
+		else
+			echo
+		fi
+	done
+}
+
+ulpm_actual_pack_stack=()
+ulpm_actual_pack_stack_top=0
+function ulpm_actual_pack_stack_push {
+	ulpm_actual_pack_stack[$ulpm_actual_pack_stack_pop]=$ulpm_actual_pack
+	ulpm_actual_pack_stack_top=$((ulpm_actual_pack_stack_top+1))
+}
+function ulpm_actual_pack_stack_pop {
+	ulpm_actual_pack_stack_top=$((ulpm_actual_pack_stack_top-1))
+	ulpm_actual_pack=${ulpm_actual_pack_stack[$ulpm_actual_pack_stack_pop]}
+	. repo/$ulpm_actual_pack
+}
+
+function ulpm_install {
+	if [ ! -e repo/$1 ]; then
+		echo $1 not found
+		exit 1
+	fi
+	. repo/$1
+	ulpm_actual_pack=$1
+	ulpm_pack_installed
+
+	if [ $? -eq 0 ]; then
+		if [ $# -eq 1 ]; then
+			echo $1 already installed
+		fi
+		if [ $# -gt 1 ]; then
+			if [ "$2" = "force" ]; then
+				echo $1 already installed, reinstalling
+			else
+				return
+			fi
+		else
+			return;
+		fi
+	fi
+
+	for i in ${ulpm_pack_dependency[@]}; do
+		ulpm_actual_pack_stack_push
+		ulpm_install $i " as dep of $1"
+		ulpm_actual_pack_stack_pop
+	done
+	echo Installing $1 $2
+
+	pushd $ulpm_cache
+	ulpm_pack_fetch
+	pushd $ulpm_cache/$ulpm_actual_pack
+	ulpm_pack_install
+	if [ $? -gt 0 ]; then
+		echo Error on compiling $ulpm_actual_pack
+		exit 1
+	fi
+	popd >/dev/null
+	rm -fr $ulpm_cache/$ulpm_actual_pack
+	popd >/dev/null
+	echo Installed $ulpm_actual_pack
+	return
+}
+
+function ulpm_uninstall {
+	. repo/$1
+	ulpm_pack_installed
+	if [ $? -gt 0]; then
+		echo $1 not installed
+	fi
+	ulpm_pack_fetch
+	ulpm_pack_uninstall
+}
+
+if [ $# -eq 0 ]; then
+	ulpm_help
+	exit 1
+fi
+
+. ./repo_funcs
+mkdir $ulpm_cache 2>/dev/null >/dev/null
+case $1 in
+	list) ulpm_list;;
+	install) ulpm_install $2 $3;;
+	uninstall) ulpm_uninstall $2;;
+	help) ulpm_help;;
+	*) ulpm_help_err;;
+esac

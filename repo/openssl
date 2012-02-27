@@ -1,0 +1,22 @@
+function ulpm_pack_installed {
+	ulpm_check_command "openssl version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://www.openssl.org/source/openssl-1.0.0g.tar.gz openssl-1.0.0g
+	cp openssl/Configure openssl/configure
+}
+
+function ulpm_pack_install {
+	./config shared --prefix=$ulpm_prefix --openssldir=$ulpm_prefix/ssl
+	make all
+	make install
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make)

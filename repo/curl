@@ -1,0 +1,22 @@
+function ulpm_pack_installed {
+	ulpm_check_command "curl-config --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://curl.haxx.se/download/curl-7.24.0.tar.bz2 curl-7.24.0
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --with-ssl=$ulpm_prefix --with-zlib=$ulpm_prefix/ssl
+	make
+	make install
+}
+
+function ulpm_pack_uninstall {
+	make configure
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make openssl zlib)
