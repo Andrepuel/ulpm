@@ -1,3 +1,24 @@
+function ulpm_get {
+	file=$(echo $1 | rev | cut -d/ -f1 |rev)
+
+	if [ -e $ulpm_cache/files/$file ]; then
+		cat $ulpm_cache/files/$file
+	fi
+
+	ulpm_check_command "wget --version"
+	if [ $? -eq 0 ]; then
+		wget -O $ulpm_cache/files/$file $1
+	else
+		ulpm_check_command "curl --version"
+		if [ $? -eq 0 ]; then
+			curl $1 -o $ulpm_cache/files/$file
+		else
+			echo "Couldn't find downloader... Install curl or wget by your self, sorry..." 1>&2
+			exit 1
+		fi
+	fi
+	cat $ulpm_cache/files/$file
+}
 function ulpm_link_with {
 	pushd /tmp 2>/dev/null >/dev/null
 	echo "int main() { return 0;}" > link_test.c
@@ -26,13 +47,13 @@ function ulpm_whereiz {
 } 
 
 function ulpm_bz2get {
-	wget -O - $1 | bzip2 -d | tar -x
+	ulpm_get $1 | bzip2 -d | tar -x
 	if [ $2 != $ulpm_actual_pack ]; then
 		mv $2 $ulpm_actual_pack
 	fi
 }
 function ulpm_gzget {
-	wget -O - $1 | tar -xz
+	ulpm_get $1 | tar -xz
 	if [ $2 != $ulpm_actual_pack ]; then
 		mv $2 $ulpm_actual_pack
 	fi
@@ -40,4 +61,8 @@ function ulpm_gzget {
 
 function ulpm_dotconfigure {
 	./configure --prefix=$ulpm_prefix $@
+}
+
+function ulpm_cant_install {
+	echo Cant install or uninstall $ulpm_actual_pack, you must manage this package for yourself, sorry..." 1>&2
 }

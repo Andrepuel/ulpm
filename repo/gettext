@@ -1,21 +1,22 @@
 function ulpm_pack_installed {
-	ulpm_check_command "make -v"
+	ulpm_check_command "gettext --version"
 	return $?
 }
 
 function ulpm_pack_fetch {
-	ulpm_gzget http://ftp.gnu.org/gnu/make/make-3.82.tar.gz make-3.82
+	ulpm_gzget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.tar.gz gettext-0.18
 }
 
 function ulpm_pack_install {
 	ulpm_dotconfigure
-	./build.sh
-	./make install
+	ulpm_make_install
+	return $?
 }
 
 function ulpm_pack_uninstall {
+	make configure
 	ulpm_dotconfigure
 	make uninstall
 }
 
-ulpm_pack_dependency=()
+ulpm_pack_dependency=(make)

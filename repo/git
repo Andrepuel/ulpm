@@ -9,9 +9,9 @@ function ulpm_pack_fetch {
 
 function ulpm_pack_install {
 	make configure
-	ulpm_dotconfigure --with-curl=$ulpm_prefix --with-openssl=$ulpm_prefix/ssl --with-gitconfig=$ulpm_prefix/etc/gitconfig --with-gitattributes=$ulpmm_prefix/etc/gitattributes --with-zlib=$ulpm_prefix
-	make all doc
-	make install
+	ulpm_dotconfigure --with-curl=$ulpm_prefix --with-openssl=$ulpm_prefix/ssl --with-gitconfig=$ulpm_prefix/etc/gitconfig --with-gitattributes=$ulpmm_prefix/etc/gitattributes --with-zlib=$ulpm_prefix --without-tcltk --without-python
+	ulpm_make_install
+	return $?
 }
 
 function ulpm_pack_uninstall {
@@ -20,4 +20,4 @@ function ulpm_pack_uninstall {
 	make uninstall
 }
 
-ulpm_pack_dependency=(make curl openssl autoconf)
+ulpm_pack_dependency=(make curl openssl autoconf diffutils gettext)

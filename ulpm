@@ -64,6 +64,7 @@ function ulpm_install {
 	echo Installing $1 $2
 
 	pushd $ulpm_cache
+	rm -fr $ulpm_actual_pack 2>/dev/null >/dev/null
 	ulpm_pack_fetch
 	pushd $ulpm_cache/$ulpm_actual_pack
 	ulpm_pack_install
@@ -95,6 +96,7 @@ fi
 
 . ./repo_funcs
 mkdir $ulpm_cache 2>/dev/null >/dev/null
+mkdir $ulpm_cache/files 2>/dev/null >/dev/null
 case $1 in
 	list) ulpm_list;;
 	install) ulpm_install $2 $3;;
