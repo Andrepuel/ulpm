@@ -23,12 +23,12 @@ function ulpm_list {
 ulpm_actual_pack_stack=()
 ulpm_actual_pack_stack_top=0
 function ulpm_actual_pack_stack_push {
-	ulpm_actual_pack_stack[$ulpm_actual_pack_stack_pop]=$ulpm_actual_pack
+	ulpm_actual_pack_stack[$ulpm_actual_pack_stack_top]=$ulpm_actual_pack
 	ulpm_actual_pack_stack_top=$((ulpm_actual_pack_stack_top+1))
 }
 function ulpm_actual_pack_stack_pop {
 	ulpm_actual_pack_stack_top=$((ulpm_actual_pack_stack_top-1))
-	ulpm_actual_pack=${ulpm_actual_pack_stack[$ulpm_actual_pack_stack_pop]}
+	ulpm_actual_pack=${ulpm_actual_pack_stack[$ulpm_actual_pack_stack_top]}
 	. repo/$ulpm_actual_pack
 }
 
@@ -82,7 +82,7 @@ function ulpm_install {
 function ulpm_uninstall {
 	. repo/$1
 	ulpm_pack_installed
-	if [ $? -gt 0]; then
+	if [ $? -gt 0 ]; then
 		echo $1 not installed
 	fi
 	ulpm_pack_fetch
