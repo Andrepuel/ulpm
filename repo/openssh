@@ -1,0 +1,24 @@
+function ulpm_pack_installed {
+	ssh 2>/dev/null >/dev/null
+	if [ $? -eq 255 ]; then
+		return 0
+	fi
+	return 1
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://openbsd.locaweb.com.br/pub/OpenBSD/OpenSSH/portable/openssh-5.9p1.tar.gz openssh-5.9p1
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --with-ssl=$ulpm_prefix --with-zlib=$ulpm_prefix
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make gzip openssl zlib)
