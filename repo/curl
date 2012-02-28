@@ -8,7 +8,7 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
-	ulpm_dotconfigure --with-ssl=$ulpm_prefix --with-zlib=$ulpm_prefix/ssl
+	ulpm_dotconfigure --with-ssl=$ulpm_prefix --with-zlib=$ulpm_prefix
 	make
 	make install
 }
