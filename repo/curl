@@ -19,4 +19,4 @@ function ulpm_pack_uninstall {
 	make uninstall
 }
 
-ulpm_pack_dependency=(make openssl zlib)
+ulpm_pack_dependency=(make openssl zlib bzip2)

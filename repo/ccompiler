@@ -1,0 +1,31 @@
+function ulpm_pack_installed {
+	pushd /tmp >/dev/null
+	echo "int main() { return 71; };" > c_compiler_test.c
+
+	rm compiler_test 2>/dev/null
+	gcc -o compiler_test c_compiler_test.c
+	./compiler_test
+	if [ $? -ne 71 ]; then
+		popd >/dev/null
+		return 1
+	fi
+
+	popd >/dev/null
+	return 0
+}
+
+function ulpm_pack_fetch {
+	sleep 0
+}
+
+function ulpm_pack_install {
+	ulpm_cant_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_cant_install
+	return $?
+}
+
+ulpm_pack_dependency=(make m4 bzip2)

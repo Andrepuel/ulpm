@@ -18,4 +18,4 @@ function ulpm_pack_uninstall {
 	make uninstall
 }
 
-ulpm_pack_dependency=(make)
+ulpm_pack_dependency=(make bzip2)

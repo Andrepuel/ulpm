@@ -1,10 +1,10 @@
 function ulpm_pack_installed {
-	ulpm_check_command "autoconf --version"
+	ulpm_check_command "bzip2 -h"
 	return $?
 }
 
 function ulpm_pack_fetch {
-	ulpm_bz2get http://ftp.gnu.org/gnu/autoconf/autoconf-2.68.tar.bz2 autoconf-2.68
+	ulpm_gzget http://bzip.org/1.0.6/bzip2-1.0.6.tar.gz bzip2-1.0.6
 }
 
 function ulpm_pack_install {
@@ -18,4 +18,4 @@ function ulpm_pack_uninstall {
 	make uninstall
 }
 
-ulpm_pack_dependency=(make m4 bzip2)
+ulpm_pack_dependency=(make gzip)

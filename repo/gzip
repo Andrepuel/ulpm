@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_get http://gnu.c3sl.ufpr.br/ftp/gzip/gzip-1.3.12.tar gzip-1.3.12
+	sleep 0
 }
 
 function ulpm_pack_install {

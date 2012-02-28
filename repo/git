@@ -20,4 +20,4 @@ function ulpm_pack_uninstall {
 	make uninstall
 }
 
-ulpm_pack_dependency=(make curl openssl autoconf diffutils gettext)
+ulpm_pack_dependency=(make curl openssl autoconf diffutils gettext gzip)

@@ -64,5 +64,5 @@ function ulpm_dotconfigure {
 }
 
 function ulpm_cant_install {
-	echo Cant install or uninstall $ulpm_actual_pack, you must manage this package for yourself, sorry..." 1>&2
+	echo Cant install or uninstall $ulpm_actual_pack, you must manage this package for yourself, sorry... 1>&2
 }
