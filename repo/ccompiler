@@ -3,8 +3,8 @@ function ulpm_pack_installed {
 	echo "int main() { return 71; };" > c_compiler_test.c
 
 	rm compiler_test 2>/dev/null
-	gcc -o compiler_test c_compiler_test.c
-	./compiler_test
+	gcc -o compiler_test c_compiler_test.c 2>/dev/null
+	./compiler_test 2>/dev/null
 	if [ $? -ne 71 ]; then
 		popd >/dev/null
 		return 1
