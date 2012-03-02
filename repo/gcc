@@ -1,0 +1,33 @@
+function ulpm_pack_installed {
+	pushd /tmp >/dev/null
+	echo "int main() {};" > c_compiler_test.cpp
+
+	rm compiler_test 2>/dev/null
+	g++ -o compiler_test c_compiler_test.cpp 2>/dev/null
+	./compiler_test 2>/dev/null
+	if [ $? -ne 0 ]; then
+		popd >/dev/null
+		return 1
+	fi
+
+	popd >/dev/null
+	return 0
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://gnu.c3sl.ufpr.br/ftp/gcc/gcc-4.6.2/gcc-4.6.2.tar.bz2 gcc-4.6.2
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --with-gmp=$ulpm_prefix --disable-multilib
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+	return $?
+}
+
+ulpm_pack_dependency=(make bzip2 gmp mpfr mpc zip)

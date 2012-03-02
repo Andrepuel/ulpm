@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_link_with mpc
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz mpc-0.9
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --with-mpfr=$ulpm_prefix --with-gmp=$ulpm_prefix
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 gmp mpfr)

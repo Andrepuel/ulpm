@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_link_with gmp
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get ftp://ftp.gmplib.org/pub/gmp-5.0.4/gmp-5.0.4.tar.bz2 gmp-5.0.4
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2)
