@@ -3,6 +3,7 @@ function ulpm_get {
 
 	if [ -e $ulpm_cache/files/$file ]; then
 		cat $ulpm_cache/files/$file
+		return
 	fi
 
 	ulpm_check_command "wget --version"
@@ -27,6 +28,9 @@ function ulpm_link_with {
 	rm a.out link_test.c 2>/dev/null >/dev/null
 	popd >/dev/null
 	return $result
+}
+function ulpm_patch {
+	patch -p1 <<< "$1"
 }
 function ulpm_make_install {
 	make all $@ || return 1

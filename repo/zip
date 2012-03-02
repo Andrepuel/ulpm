@@ -1,0 +1,37 @@
+function ulpm_pack_installed {
+	ulpm_check_command "zip --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://ufpr.dl.sourceforge.net/project/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz zip30
+}
+
+function ulpm_pack_install {
+	ulpm_patch '
+diff -U 3 -r zip30.a/unix/Makefile zip30.b/unix/Makefile
+--- zip30.a/unix/Makefile	2008-05-07 03:33:56.000000000 -0300
++++ zip30.b/unix/Makefile	2012-03-01 18:46:32.151136170 -0300
+@@ -38,7 +38,7 @@
+ MANFLAGS = 644
+ 
+ # target directories - where to install executables and man pages to
+-prefix = /usr/local
++prefix = $(ulpm_prefix)
+ BINDIR = $(prefix)/bin
+ MANEXT=1
+ MANDIR = $(prefix)/man/man\$(MANEXT)
+'
+
+	export ulpm_prefix
+
+	make -f unix/Makefile generic_gcc && make -f unix/Makefile install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_cant_install
+	return $?
+}
+
+ulpm_pack_dependency=(make m4 gzip patch)
