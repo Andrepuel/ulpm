@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "patch --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://ftp.gnu.org/gnu/patch/patch-2.6.tar.bz2 patch-2.6
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2)
