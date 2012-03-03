@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "nettle-hash --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://www.lysator.liu.se/~nisse/archive/nettle-2.5-pre.tar.gz nettle-2.5-pre
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make gzip)
