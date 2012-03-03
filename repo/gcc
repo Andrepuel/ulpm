@@ -19,7 +19,7 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
-	ulpm_dotconfigure --with-gmp=$ulpm_prefix --disable-multilib
+	ulpm_dotconfigure --with-gmp=$ulpm_prefix --disable-multilib --enable-languages=c,c++,fortran,go,lto,objc,obj-c++
 	ulpm_make_install
 	return $?
 }
