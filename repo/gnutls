@@ -1,0 +1,25 @@
+function ulpm_pack_installed {
+	ulpm_check_command "gnutls-cli --version"
+	if [ $? -gt 0 ]; then
+		return $?
+	fi
+	ulpm_link_with gnutls
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_xzget http://ftp.gnu.org/gnu/gnutls/gnutls-3.0.15.tar.xz gnutls-3.0.15
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make xz nettle)
