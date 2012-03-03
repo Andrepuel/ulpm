@@ -1,0 +1,22 @@
+function ulpm_pack_installed {
+	ulpm_link_with ncurses
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz ncurses-5.9
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	make configure
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make gzip)
