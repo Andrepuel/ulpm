@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "lftp --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://ftp.yar.ru/pub/source/lftp/lftp-4.3.5.tar.bz2 lftp-4.3.5
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --with-gnutls=$ulpm_prefix
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 readline gnutls)
