@@ -1,0 +1,22 @@
+function ulpm_pack_installed {
+	ulpm_link_with readline -lncurses
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget ftp://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz readline-6.2
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	make configure
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make gzip)
