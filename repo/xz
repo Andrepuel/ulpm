@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "xz --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://tukaani.org/xz/xz-5.0.3.tar.bz2 xz-5.0.3
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2)
