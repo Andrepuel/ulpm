@@ -23,7 +23,9 @@ function ulpm_get {
 function ulpm_link_with {
 	pushd /tmp 2>/dev/null >/dev/null
 	echo "int main() { return 0;}" > link_test.c
-	gcc link_test.c -L $ulpm_prefix/lib -l$1 2>/dev/null >/dev/null
+	link_with=$1
+	shift
+	gcc link_test.c -L $ulpm_prefix/lib -l$link_with $@ 2>/dev/null >/dev/null
 	result=$?
 	rm a.out link_test.c 2>/dev/null >/dev/null
 	popd >/dev/null
@@ -58,6 +60,12 @@ function ulpm_bz2get {
 }
 function ulpm_gzget {
 	ulpm_get $1 | tar -xz
+	if [ $2 != $ulpm_actual_pack ]; then
+		mv $2 $ulpm_actual_pack
+	fi
+}
+function ulpm_xzget {
+	ulpm_get $1 | xz -d | tar -x
 	if [ $2 != $ulpm_actual_pack ]; then
 		mv $2 $ulpm_actual_pack
 	fi

@@ -9,8 +9,8 @@ function ulpm_pack_fetch {
 
 function ulpm_pack_install {
 	ulpm_dotconfigure
-	make
-	make install
+	ulpm_make_install
+	return $?
 }
 
 function ulpm_pack_uninstall {
