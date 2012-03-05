@@ -1,0 +1,42 @@
+function ulpm_pack_installed {
+	ulpm_check_command "Xvnc -version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.tightvnc.com/download/1.3.10/tightvnc-1.3.10_unixsrc.tar.bz2 vnc_unixsrc
+}
+
+function ulpm_pack_install {
+	ulpm_patch "
+diff -U3 -r vnc_unixsrc.a//Xvnc/config/cf/site.def vnc_unixsrc.b//Xvnc/config/cf/site.def
+--- vnc_unixsrc.a//Xvnc/config/cf/site.def	2003-01-29 11:50:41.000000000 -0200
++++ vnc_unixsrc.b//Xvnc/config/cf/site.def	2012-03-04 01:27:21.954598713 -0300
+@@ -23,6 +23,8 @@
+  *                                                                         *
+  ***************************************************************************/
+ 
++#define ProjectRoot $ulpm_prefix
++
+ /* if you want host-specific customization, this is one way to do it */
+ /*
+ #ifndef SiteIConfigFiles
+"
+	xmkmf
+	make World
+	pushd Xvnc
+	ulpm_dotconfigure || return 1
+	make || return 1
+	make install || return 1
+	popd
+	cp vncserver $ulpm_prefix/bin || return 1
+
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 imake jpeglib xorg-cf-files gccmakedep xauth zlib patch)

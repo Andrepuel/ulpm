@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_link_with jpeg
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://ufpr.dl.sourceforge.net/project/libjpeg-turbo/1.2.0/libjpeg-turbo-1.2.0.tar.gz libjpeg-turbo-1.2.0
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make gzip yasm)

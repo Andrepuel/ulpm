@@ -1,0 +1,20 @@
+function ulpm_pack_installed {
+	ulpm_link_with Xext
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/individual/lib/libXext-1.2.0.tar.bz2 libXext-1.2.0
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --sysconfdir=$ulpm_prefix/etc --disable-static
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 xextproto x11 xproto)

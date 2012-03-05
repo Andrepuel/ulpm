@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "yasm --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz yasm-1.2.0
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make gzip)

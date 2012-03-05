@@ -73,7 +73,7 @@ function ulpm_install {
 		exit 1
 	fi
 	popd >/dev/null
-	rm -fr $ulpm_cache/$ulpm_actual_pack
+#	rm -fr $ulpm_cache/$ulpm_actual_pack
 	popd >/dev/null
 	echo Installed $ulpm_actual_pack
 	return

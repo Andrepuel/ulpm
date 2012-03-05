@@ -1,0 +1,23 @@
+function ulpm_pack_installed {
+	ulpm_check_command "strace -V"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_xzget http://ufpr.dl.sourceforge.net/project/strace/strace/4.6/strace-4.6.tar.xz strace-4.6 
+}
+
+function ulpm_pack_install {
+	export CFLAGS="-static -O2"
+	export CXXFLAGS="-static -O2"
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make xz)

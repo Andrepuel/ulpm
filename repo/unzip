@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "unzip -version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	echo
+}
+
+function ulpm_pack_install {
+	#TODO install unzip
+	ulpm_cant_install
+	return 1
+}
+
+function ulpm_pack_uninstall {
+	ulpm_cant_install
+	return $?
+}
+
+ulpm_pack_dependency=()

@@ -1,0 +1,30 @@
+function ulpm_pack_installed {
+	ulpm_test_include "<stdlib.h>"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_xzget http://ftp.gnu.org/gnu/glibc/glibc-2.14.tar.xz glibc-2.14
+}
+
+function ulpm_pack_install {
+	mkdir build
+	pushd build
+	../configure --prefix=$ulpm_prefix
+	make
+	mkdir /tmp/glibc
+	make install_root=/tmp/glibc install
+	echo Instaled at tmp, finish manually now
+	return 1
+	
+	to_return=$?
+	popd
+	return $to_return
+}
+
+function ulpm_pack_uninstall {
+	ulpm_cant_install
+	return $?
+}
+
+ulpm_pack_dependency=(make xz binutils)

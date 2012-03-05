@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "ls --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_xzget http://ftp.gnu.org/gnu/coreutils/coreutils-8.15.tar.xz coreutils-8.15 
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make xz)

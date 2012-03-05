@@ -31,8 +31,24 @@ function ulpm_link_with {
 	popd >/dev/null
 	return $result
 }
+function ulpm_test_include {
+	pushd /tmp 2>/dev/null >/dev/null
+	echo "#include" $1 > link_test.c
+	echo "int main() { return 0;}" >> link_test.c
+	shift
+	gcc link_test.c -I $ulpm_prefix/include $@ 2>/dev/null >/dev/null
+	result=$?
+	rm a.out link_test.c 2>/dev/null >/dev/null
+	popd > /dev/null
+	return $result
+}
+function ulpm_test_pkgconfig {
+	pkg-config $1 --modversion 2>/dev/null >/dev/null
+	return $?
+}
 function ulpm_patch {
 	patch -p1 <<< "$1"
+	return $?
 }
 function ulpm_make_install {
 	make all $@ || return 1
@@ -51,28 +67,35 @@ function ulpm_whereiz {
 	fi
 	return 1
 } 
-
+function ulpm_get_move {
+	if [ $# -gt 0 ]; then
+		if [ $1 != $ulpm_actual_pack ]; then
+			mv $1 $ulpm_actual_pack
+		fi
+	fi
+}
 function ulpm_bz2get {
 	ulpm_get $1 | bzip2 -d | tar -x
-	if [ $2 != $ulpm_actual_pack ]; then
-		mv $2 $ulpm_actual_pack
-	fi
+	shift; ulpm_get_move $@
 }
 function ulpm_gzget {
 	ulpm_get $1 | tar -xz
-	if [ $2 != $ulpm_actual_pack ]; then
-		mv $2 $ulpm_actual_pack
-	fi
+	shift; ulpm_get_move $@
 }
 function ulpm_xzget {
 	ulpm_get $1 | xz -d | tar -x
-	if [ $2 != $ulpm_actual_pack ]; then
-		mv $2 $ulpm_actual_pack
-	fi
+	shift; ulpm_get_move $@
+}
+function ulpm_zipget {
+	ulpm_get $1 > file.zip
+	unzip file.zip || return 1
+	rm file.zip
+	shift; ulpm_get_move $@
 }
 
 function ulpm_dotconfigure {
 	./configure --prefix=$ulpm_prefix $@
+	return $?
 }
 
 function ulpm_cant_install {

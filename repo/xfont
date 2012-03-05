@@ -1,0 +1,48 @@
+function ulpm_pack_installed {
+	ulpm_link_with Xfont
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/libXfont-1.4.3.tar.bz2 libXfont-1.4.3 
+}
+
+function ulpm_pack_install {
+	#Removing X_HIDDEN because it doesnt seen to be defined anywhere
+	ulpm_patch '
+diff -U3 -r libXfont-1.4.3/src/fontfile/bunzip2.c libXfont-1.4.3.b//src/fontfile/bunzip2.c
+--- libXfont-1.4.3/src/fontfile/bunzip2.c       2010-01-15 03:38:32.000000000 -0200
++++ libXfont-1.4.3.b//src/fontfile/bunzip2.c    2012-03-04 14:52:36.881397872 -0300
+@@ -44,7 +44,7 @@
+ static int BufBzip2FileFill ( BufFilePtr f );
+ static int BufBzip2FileSkip ( BufFilePtr f, int c );
+ 
+-_X_HIDDEN BufFilePtr
++BufFilePtr
+ BufFilePushBZIP2 (BufFilePtr f)
+ {
+     xzip_buf *x;
+diff -U3 -r libXfont-1.4.3/src/fontfile/fontfile.c libXfont-1.4.3.b//src/fontfile/fontfile.c
+--- libXfont-1.4.3/src/fontfile/fontfile.c      2010-10-07 01:12:21.000000000 -0300
++++ libXfont-1.4.3.b//src/fontfile/fontfile.c   2012-03-04 14:52:48.413832675 -0300
+@@ -49,7 +49,7 @@
+     return source;
+ }
+ 
+-_X_HIDDEN void
++void
+ CopyISOLatin1Lowered(char *dest, char *source, int length)
+ {
+     int i;
+'
+
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 xproto xtrans fontsproto fontenc)

@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_link_with Xaw
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/individual/lib/libXaw-1.0.9.tar.bz2 libXaw-1.0.9 
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 xproto x11 xext xextproto xt xmu xpm)

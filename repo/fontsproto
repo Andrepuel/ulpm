@@ -1,0 +1,20 @@
+function ulpm_pack_installed {
+	ulpm_test_include "<X11/fonts/font.h>"
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/fontsproto-2.1.1.tar.bz2 fontsproto-2.1.1 
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2)

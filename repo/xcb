@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_link_with xcb
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/libxcb-1.7.tar.bz2 libxcb-1.7
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 xcb-proto pthread-stubs xau)

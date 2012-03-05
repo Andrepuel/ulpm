@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "mkfontscale --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/mkfontscale-1.0.8.tar.bz2 mkfontscale-1.0.8
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2 fontenc freetype2)

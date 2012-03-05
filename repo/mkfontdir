@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_check_command "mkfontdir --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/mkfontdir-1.0.6.tar.bz2 mkfontdir-1.0.6
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2)

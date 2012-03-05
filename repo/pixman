@@ -1,0 +1,21 @@
+function ulpm_pack_installed {
+	ulpm_link_with pixman-1
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/individual/lib/pixman-0.24.4.tar.bz2 pixman-0.24.4
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+function ulpm_pack_uninstall {
+	ulpm_dotconfigure
+	make uninstall
+}
+
+ulpm_pack_dependency=(make bzip2)
