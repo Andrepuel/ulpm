@@ -8,6 +8,7 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
+	export CFLAGS="-fPIC"
 	ulpm_dotconfigure
 	ulpm_make_install
 	return $?
