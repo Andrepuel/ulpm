@@ -12,16 +12,18 @@ function ulpm_pack_install {
 diff -U3 -r vnc_unixsrc.a//Xvnc/config/cf/site.def vnc_unixsrc.b//Xvnc/config/cf/site.def
 --- vnc_unixsrc.a//Xvnc/config/cf/site.def	2003-01-29 11:50:41.000000000 -0200
 +++ vnc_unixsrc.b//Xvnc/config/cf/site.def	2012-03-04 01:27:21.954598713 -0300
-@@ -23,6 +23,8 @@
+@@ -23,6 +23,10 @@
   *                                                                         *
   ***************************************************************************/
  
-+#define ProjectRoot $ulpm_prefix
++#define StandardIncludes -I'$ulpm_prefix/include' -L'$ulpm_prefix/lib'
++#define ProjectRoot '$ulpm_prefix'
++#define ExtraLoadFlags -L'$ulpm_prefix/lib'
 +
  /* if you want host-specific customization, this is one way to do it */
  /*
  #ifndef SiteIConfigFiles
-"
+" || return 1
 	xmkmf
 	make World
 	pushd Xvnc
@@ -30,13 +32,12 @@ diff -U3 -r vnc_unixsrc.a//Xvnc/config/cf/site.def vnc_unixsrc.b//Xvnc/config/cf
 	make install || return 1
 	popd
 	cp vncserver $ulpm_prefix/bin || return 1
+	pushd vncpasswd
+	make || return 1
+	cp vncpasswd $ulpm_prefix/bin || return 1
+	popd
 
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	ulpm_dotconfigure
-	make uninstall
-}
-
-ulpm_pack_dependency=(make bzip2 imake jpeglib xorg-cf-files gccmakedep xauth zlib patch)
+ulpm_pack_dependency=(make bzip2 imake jpeglib xorg-cf-files gccmakedep xauth zlib patch xorg-fonts)

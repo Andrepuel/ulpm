@@ -24,10 +24,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	ulpm_dotconfigure
-	make uninstall
-	return $?
-}
-
 ulpm_pack_dependency=(make bzip2 gmp mpfr mpc zip)

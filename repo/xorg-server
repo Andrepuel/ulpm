@@ -14,9 +14,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	ulpm_dotconfigure
-	make uninstall
-}
-
 ulpm_pack_dependency=(make bzip2 pixman)

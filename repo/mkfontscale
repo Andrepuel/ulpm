@@ -8,14 +8,10 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
-	ulpm_dotconfigure
+	export LD_FLAGS=-L$ulpm_prefix/lib
+	ulpm_dotconfigure --with-zlib=$ulpm_prefix
 	ulpm_make_install
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	ulpm_dotconfigure
-	make uninstall
-}
-
-ulpm_pack_dependency=(make bzip2 fontenc freetype2)
+ulpm_pack_dependency=(make bzip2 fontenc freetype2 zlib)

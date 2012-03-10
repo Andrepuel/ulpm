@@ -29,9 +29,4 @@ diff -U 3 -r zip30.a/unix/Makefile zip30.b/unix/Makefile
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	ulpm_cant_install
-	return $?
-}
-
 ulpm_pack_dependency=(make m4 gzip patch)

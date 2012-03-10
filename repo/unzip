@@ -13,9 +13,4 @@ function ulpm_pack_install {
 	return 1
 }
 
-function ulpm_pack_uninstall {
-	ulpm_cant_install
-	return $?
-}
-
 ulpm_pack_dependency=()

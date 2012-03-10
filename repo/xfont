@@ -40,9 +40,4 @@ diff -U3 -r libXfont-1.4.3/src/fontfile/fontfile.c libXfont-1.4.3.b//src/fontfil
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	ulpm_dotconfigure
-	make uninstall
-}
-
 ulpm_pack_dependency=(make bzip2 xproto xtrans fontsproto fontenc)

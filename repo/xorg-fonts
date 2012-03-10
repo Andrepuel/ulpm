@@ -58,11 +58,12 @@ function ulpm_pack_install {
 			popd
 		fi
 	done
-	return $?
-}
-
-function ulpm_pack_uninstall {
-	ulpm_cant_install
+	mkdir -p $ulpm_prefix/lib/X11/fonts
+	pushd $ulpm_prefix/lib/X11/fonts
+	for i in $ulpm_prefix/share/fonts/X11/*; do
+		ln -s $i .
+	done
+	popd
 	return $?
 }
 

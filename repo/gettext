@@ -13,10 +13,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-function ulpm_pack_uninstall {
-	make configure
-	ulpm_dotconfigure
-	make uninstall
-}
-
 ulpm_pack_dependency=(make gzip)
