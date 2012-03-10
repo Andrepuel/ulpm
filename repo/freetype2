@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_bz2get http://download.savannah.gnu.org/releases/freetype/freetype-2.4.8.tar.bz2 freetype-2.4.8
+	ulpm_bz2get http://savannah.c3sl.ufpr.br/freetype/freetype-2.4.8.tar.bz2 freetype-2.4.8
 }
 
 function ulpm_pack_install {
