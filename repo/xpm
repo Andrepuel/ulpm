@@ -8,7 +8,7 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
-	ulpm_dotconfigure
+	ulpm_dotconfigure --sysconfdir=$ulpm_prefix/etc --disable-static
 	ulpm_make_install
 	return $?
 }
