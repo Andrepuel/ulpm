@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_gzget http://ufpr.dl.sourceforge.net/project/libjpeg-turbo/1.2.0/libjpeg-turbo-1.2.0.tar.gz libjpeg-turbo-1.2.0
+	ulpm_gzget http://kent.dl.sourceforge.net/project/libjpeg-turbo/1.2.0/libjpeg-turbo-1.2.0.tar.gz libjpeg-turbo-1.2.0
 }
 
 function ulpm_pack_install {
