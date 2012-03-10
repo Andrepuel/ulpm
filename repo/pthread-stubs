@@ -13,4 +13,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-ulpm_pack_dependency=(make bzip2) #pkg-config)
+ulpm_pack_dependency=(make bzip2 pkg-config)

@@ -1,0 +1,18 @@
+function ulpm_pack_installed {
+	ulpm_check_command "gtester -h"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_xzget http://ftp.acc.umu.se/pub/gnome/sources/glib/2.30/glib-2.30.2.tar.xz glib-2.30.2
+}
+
+function ulpm_pack_install {
+	export LIBFFI_CFLAGS=-I$ulpm_prefix/include
+	export LIBFFI_LIBS=-L$ulpm_prefix/lib\ -lffi
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make xz)

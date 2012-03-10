@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_link_with ffi
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget ftp://sourceware.org/pub/libffi/libffi-3.0.9rc9.tar.gz libffi-3.0.9rc9
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip)

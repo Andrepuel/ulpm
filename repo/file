@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_check_command "file --help"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget ftp://ftp.astron.com/pub/file/file-5.11.tar.gz file-5.11
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip)

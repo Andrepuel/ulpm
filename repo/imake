@@ -16,4 +16,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-ulpm_pack_dependency=(make bzip2 xproto)
+ulpm_pack_dependency=(make bzip2 xproto pkg-config)

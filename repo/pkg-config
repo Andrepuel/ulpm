@@ -1,0 +1,18 @@
+function ulpm_pack_installed {
+	ulpm_check_command "pkg-config --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://pkgconfig.freedesktop.org/releases/pkg-config-0.26.tar.gz pkg-config-0.26
+}
+
+function ulpm_pack_install {
+	export GLIB_CFLAGS=-I$ulpm_prefix/include/glib-2.0\ -I$ulpm_prefix/lib/glib-2.0/include
+	export GLIB_LIBS=-lglib-2.0\ -L$ulpm_prefix/lib
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip glib libffi file)
