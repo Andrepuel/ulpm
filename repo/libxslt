@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_check_command "xsltproc --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget ftp://xmlsoft.org/libxslt/libxslt-1.1.26.tar.gz libxslt-1.1.26
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip libxml2)

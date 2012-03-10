@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_check_command "xml2-config --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget ftp://xmlsoft.org/libxslt/libxml2-sources-2.7.8.tar.gz libxml2-2.7.8
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip)
