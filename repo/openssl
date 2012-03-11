@@ -10,8 +10,7 @@ function ulpm_pack_fetch {
 
 function ulpm_pack_install {
 	./config shared --prefix=$ulpm_prefix --openssldir=$ulpm_prefix/ssl
-	make all
-	make install
+	ulpm_make_install
 }
 
 ulpm_pack_dependency=(make gzip)

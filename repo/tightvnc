@@ -24,17 +24,19 @@ diff -U3 -r vnc_unixsrc.a//Xvnc/config/cf/site.def vnc_unixsrc.b//Xvnc/config/cf
  /*
  #ifndef SiteIConfigFiles
 " || return 1
+
+#TODO Vnc viewer
+
 	xmkmf
 	make World
 	pushd Xvnc
 	ulpm_dotconfigure || return 1
-	make || return 1
-	make install || return 1
+	ulpm_make_install || return 1
 	popd
-	cp vncserver $ulpm_prefix/bin || return 1
+	cp vncserver $ulpm_temp_root/$ulpm_prefix/bin || return 1
 	pushd vncpasswd
 	make || return 1
-	cp vncpasswd $ulpm_prefix/bin || return 1
+	cp vncpasswd $ulpm_temp_root/$ulpm_prefix/bin || return 1
 	popd
 
 	return $?

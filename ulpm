@@ -32,16 +32,16 @@ function ulpm_actual_pack_stack_pop {
 	. repo/$ulpm_actual_pack
 }
 
-function ulpm_list_prefix {
-	pushd $ulpm_prefix >/dev/null
+function ulpm_list_temp_root {
+	pushd $ulpm_temp_root/$ulpm_prefix >/dev/null
 	file_list=(".")
 	file_pointer=0
 	file_len=1
 	while [ $file_pointer -lt $file_len ]; do
 		pushd ${file_list[$file_pointer]} >/dev/null
-		for i in *; do
-			echo ${file_list[$file_pointer]}/$i | grep -v "^\./cache"
-			if [ -d ${file_list[$file_pointer]}/$i ]; then
+		for i in .* *; do
+			echo ${file_list[$file_pointer]}/$i | egrep -v "\.{1,2}$"
+			if [ -d $i -a $i != "." -a $i != ".." ]; then
 				file_list[$file_len]=${file_list[$file_pointer]}/$i
 				file_len=$(($file_len+1))
 			fi
@@ -81,8 +81,9 @@ function ulpm_install {
 		ulpm_install $i " as dep of $1"
 		ulpm_actual_pack_stack_pop
 	done
+	rm -fr $ulpm_temp_root
+	mkdir -p $ulpm_temp_root
 	echo Installing $1 $2
-	ulpm_list_prefix > $ulpm_installed/${ulpm_actual_pack}.pre
 
 	pushd $ulpm_cache
 	rm -fr $ulpm_actual_pack 2>/dev/null >/dev/null
@@ -97,31 +98,32 @@ function ulpm_install {
 	rm -fr $ulpm_cache/$ulpm_actual_pack
 	popd >/dev/null
 
-	ulpm_list_prefix > $ulpm_installed/${ulpm_actual_pack}.pos
-	if [ $ulpm_has_diff -eq 0 ]; then
-		diff $ulpm_installed/${ulpm_actual_pack}.{pre,pos} > $ulpm_installed/${ulpm_actual_pack}
-		rm $ulpm_installed/${ulpm_actual_pack}.{pre,pos}
+	mv $ulpm_installed/${ulpm_actual_pack}{,.prev} 2>/dev/null >/dev/null
+	ulpm_list_temp_root > $ulpm_installed/${ulpm_actual_pack}.new
+	#TODO Check $ulpm_prefix to guarantee it wasnt modified
+	if [ $(cat $ulpm_installed/${ulpm_actual_pack}.new | wc -l ) -eq 0 ]; then
+		rm $ulpm_installed/${ulpm_actual_pack}.new
+		mv $ulpm_installed/${ulpm_actual_pack}{.prev,} 2>/dev/null >/dev/null
+		echo Error on installing $ulpm_actual_pack, it didnt generate any file
+		exit 1
 	fi
+	cat $ulpm_installed/${ulpm_actual_pack}{.prev,.new} | sort | uniq > $ulpm_installed/${ulpm_actual_pack}
+	rm $ulpm_installed/${ulpm_actual_pack}{.prev,.new}
+	cp -r $ulpm_temp_root/* / || exit 1
+#	rm -fr $ulpm_temp_root
 
 	echo Installed $ulpm_actual_pack
 	return
 }
 
 function ulpm_uninstall {
-	if [ $ulpm_has_diff -gt 0 ]; then
-		echo "Please install diffutils to run uninstall procedure."
-		exit 1
-	fi
-	if [ -e $ulpm_installed/$1.pre ]; then
-		diff $ulpm_installed/${ulpm_actual_pack}.{pre,pos} > $ulpm_installed/$1
-		rm $ulpm_installed/${ulpm_actual_pack}.{pre,pos}
-	fi
 	if [ ! -e $ulpm_installed/$1 ]; then
 		echo "Cant uninstall $1 , there is no installation information. Probably wasnt installed by ulpm."
 		exit 1
 	fi
 	pushd $ulpm_prefix
-	cat $ulpm_installed/$1 | grep "^>" | cut -d" " -f2- | xargs echo rm
+	cat $ulpm_installed/$1 | xargs rm 2>/dev/null
+	cat $ulpm_installed/$1 | sort -r | xargs rmdir 2>/dev/null
 	popd
 }
 
@@ -131,12 +133,10 @@ if [ $# -eq 0 ]; then
 fi
 
 . ./repo_funcs
-. repo/diffutils
-ulpm_pack_installed
-ulpm_has_diff=$?
 
-mkdir $ulpm_cache 2>/dev/null >/dev/null
-mkdir $ulpm_cache/files 2>/dev/null >/dev/null
+mkdir -p $ulpm_cache 2>/dev/null >/dev/null
+ulpm_temp_root=$ulpm_cache/root
+mkdir -p $ulpm_cache/files 2>/dev/null >/dev/null
 mkdir $ulpm_installed -p 2>/dev/null >/dev/null
 case $1 in
 	list) ulpm_list;;

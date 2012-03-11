@@ -25,7 +25,7 @@ diff -U 3 -r zip30.a/unix/Makefile zip30.b/unix/Makefile
 
 	export ulpm_prefix
 
-	make -f unix/Makefile generic_gcc && make -f unix/Makefile install
+	make -f unix/Makefile generic_gcc && make DESTDIR=$ulpm_temp_root -f unix/Makefile install
 	return $?
 }
 

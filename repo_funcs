@@ -52,7 +52,7 @@ function ulpm_patch {
 }
 function ulpm_make_install {
 	make all $@ || return 1
-	make install || return 1
+	make DESTDIR=$ulpm_temp_root install || return 1
 	return 0
 }
 

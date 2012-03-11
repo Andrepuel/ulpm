@@ -11,11 +11,7 @@ function ulpm_pack_install {
 	mkdir build
 	pushd build
 	../configure --prefix=$ulpm_prefix
-	make
-	mkdir /tmp/glibc
-	make install_root=/tmp/glibc install
-	echo Instaled at tmp, finish manually now
-	return 1
+	ulpm_make_install
 	
 	to_return=$?
 	popd

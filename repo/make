@@ -10,7 +10,7 @@ function ulpm_pack_fetch {
 function ulpm_pack_install {
 	ulpm_dotconfigure
 	./build.sh
-	./make install
+	./make DESTDIR=$ulpm_temp_root install
 }
 
 ulpm_pack_dependency=(gzip ccompiler)

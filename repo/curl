@@ -9,8 +9,7 @@ function ulpm_pack_fetch {
 
 function ulpm_pack_install {
 	ulpm_dotconfigure --with-ssl=$ulpm_prefix --with-zlib=$ulpm_prefix
-	make
-	make install
+	ulpm_make_install
 }
 
 ulpm_pack_dependency=(make openssl zlib bzip2)
