@@ -14,4 +14,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-ulpm_pack_dependency=(make curl openssl autoconf diffutils gettext gzip less)
+ulpm_pack_dependency=(make curl openssl openssh autoconf diffutils gettext gzip less)
