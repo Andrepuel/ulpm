@@ -8,11 +8,18 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
-	export LIBFFI_CFLAGS=-I$ulpm_prefix/include
-	export LIBFFI_LIBS=-L$ulpm_prefix/lib\ -lffi
+	#TODO look .pc in other dirs
+	if [ -e ${ulpm_prefix}/lib/pkgconfig/libffi.pc ]; then
+		. ${ulpm_prefix}/lib/pkgconfig/libffi.pc
+	else
+		includedir=$ulpm_prefix/include
+		libdir=$ulpm_prefix/lib
+	fi
+	export LIBFFI_CFLAGS=-I$includedir
+	export LIBFFI_LIBS=-L$libdir\ -lffi
 	ulpm_dotconfigure
 	ulpm_make_install
 	return $?
 }
 
-ulpm_pack_dependency=(make xz)
+ulpm_pack_dependency=(make xz libffi python2)
