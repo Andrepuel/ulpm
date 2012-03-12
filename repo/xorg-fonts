@@ -50,6 +50,8 @@ function ulpm_pack_fetch {
 }
 
 function ulpm_pack_install {
+	ulpm_old_PATH=$PATH
+	PATH=$ulpm_temp_root/$ulpm_prefix/bin:$PATH
 	for i in font-util-1.2.0 encodings-1.0.4 *; do
 		if [ -d $i ]; then
 			pushd $i
@@ -58,13 +60,14 @@ function ulpm_pack_install {
 			popd
 		fi
 	done
-	mkdir -p $ulpm_prefix/lib/X11/fonts
-	pushd $ulpm_prefix/lib/X11/fonts
-	for i in $ulpm_prefix/share/fonts/X11/*; do
+	mkdir -p $ulpm_temp_root/$ulpm_prefix/lib/X11/fonts
+	pushd $ulpm_temp_root/$ulpm_prefix/lib/X11/fonts
+	for i in $ulpm_temp_root/$ulpm_prefix/share/fonts/X11/*; do
 		ln -s $i .
 	done
 	popd
+	PATH=$ulpm_old_PATH
 	return $?
 }
 
-ulpm_pack_dependency=(make bzip2 mkfontscale mkfontdir bdftopcf)
+ulpm_pack_dependency=(make bzip2 mkfontscale mkfontdir bdftopcf xorg-font-util xorg-font-encodings)
