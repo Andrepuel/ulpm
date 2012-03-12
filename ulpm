@@ -124,6 +124,7 @@ function ulpm_uninstall {
 	pushd $ulpm_prefix
 	cat $ulpm_installed/$1 | xargs rm 2>/dev/null
 	cat $ulpm_installed/$1 | sort -r | xargs rmdir 2>/dev/null
+	rm $ulpm_installed/$1
 	popd
 }
 
