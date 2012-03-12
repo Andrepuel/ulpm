@@ -29,6 +29,9 @@ diff -U3 -r vnc_unixsrc.a//Xvnc/config/cf/site.def vnc_unixsrc.b//Xvnc/config/cf
 
 	xmkmf
 	make World
+	pushd libvncauth
+	make
+	popd
 	pushd Xvnc
 	ulpm_dotconfigure || return 1
 	ulpm_make_install || return 1
@@ -38,6 +41,8 @@ diff -U3 -r vnc_unixsrc.a//Xvnc/config/cf/site.def vnc_unixsrc.b//Xvnc/config/cf
 	make || return 1
 	cp vncpasswd $ulpm_temp_root/$ulpm_prefix/bin || return 1
 	popd
+
+	rm -fr $ulpm_temp_root/$ulpm_prefix/include/X11
 
 	return $?
 }
