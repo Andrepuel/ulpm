@@ -22,4 +22,4 @@ function ulpm_pack_install {
 	return $?
 }
 
-ulpm_pack_dependency=(make xz libffi python2)
+ulpm_pack_dependency=(make xz libffi python2 gettext)
