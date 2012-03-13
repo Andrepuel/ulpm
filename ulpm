@@ -109,7 +109,7 @@ function ulpm_install {
 	fi
 	cat $ulpm_installed/${ulpm_actual_pack}{.prev,.new} | sort | uniq > $ulpm_installed/${ulpm_actual_pack}
 	rm $ulpm_installed/${ulpm_actual_pack}{.prev,.new}
-	cp -r $ulpm_temp_root/* / || exit 1
+	cp -r $ulpm_temp_root/$ulpm_prefix/* -t $ulpm_prefix/ || exit 1
 #	rm -fr $ulpm_temp_root
 
 	echo Installed $ulpm_actual_pack
