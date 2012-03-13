@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_check_command "openbox --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://openbox.org/dist/openbox/openbox-3.5.0.tar.gz openbox-3.5.0
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --sysconfdir=$ulpm_prefix/etc
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip glib libxml2 pango imlib2 startup-notification pkg-config xcursor)

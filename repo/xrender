@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_link_with Xrender
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/libXrender-0.9.6.tar.bz2 libXrender-0.9.6
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make bzip2 x11 renderproto)

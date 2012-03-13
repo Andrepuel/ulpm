@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_link_with Xfixes
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get http://www.x.org/releases/X11R7.6/src/everything/libXfixes-4.0.5.tar.bz2 libXfixes-4.0.5
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make bzip2 xproto fixesproto xextproto x11)
