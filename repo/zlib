@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_bz2get http://zlib.net/zlib-1.2.6.tar.bz2 zlib-1.2.6
+	ulpm_bz2get http://zlib.net/zlib-1.2.7.tar.bz2 zlib-1.2.7
 }
 
 function ulpm_pack_install {
