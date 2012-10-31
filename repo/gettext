@@ -1,5 +1,9 @@
 function ulpm_pack_installed {
 	ulpm_check_command "gettext --version"
+	if [ $? -gt 0 ]; then
+		return 1	
+	fi
+	ulpm_check_command "msgfmt --version"
 	return $?
 }
 
