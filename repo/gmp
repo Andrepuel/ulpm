@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_bz2get ftp://ftp.gmplib.org/pub/gmp-5.0.4/gmp-5.0.4.tar.bz2 gmp-5.0.4
+	ulpm_bz2get "ftp://ftp.gmplib.org/pub/gmp-5.0.5/gmp-5.0.5.tar.bz2" gmp-5.0.5
 }
 
 function ulpm_pack_install {
