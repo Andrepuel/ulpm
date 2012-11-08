@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_xzget http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.31/glib-2.31.14.tar.xz glib-2.31.14
+	ulpm_xzget http://ftp.acc.umu.se/pub/GNOME/sources/glib/2.31/glib-2.31.20.tar.xz glib-2.31.20
 }
 
 function ulpm_pack_install {
