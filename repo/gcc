@@ -15,7 +15,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_bz2get http://gnu.c3sl.ufpr.br/ftp/gcc/gcc-4.6.2/gcc-4.6.2.tar.bz2 gcc-4.6.2
+	ulpm_bz2get http://gnu.c3sl.ufpr.br/ftp/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2 gcc-4.7.2
 }
 
 function ulpm_pack_install {
