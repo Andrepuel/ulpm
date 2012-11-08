@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_check_command "valgrind --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_bz2get "http://valgrind.org/downloads/valgrind-3.8.1.tar.bz2" valgrind-3.8.1
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make bzip2)
