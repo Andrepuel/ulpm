@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_link_with png
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_xzget http://ufpr.dl.sourceforge.net/project/libpng/libpng15/1.5.9/libpng-1.5.9.tar.xz libpng-1.5.9
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make xz)

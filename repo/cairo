@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_link_with cairo
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://cairographics.org/releases/cairo-1.10.2.tar.gz cairo-1.10.2
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make xz libpng pixman)
