@@ -1,0 +1,22 @@
+function ulpm_pack_installed {
+	ulpm_test_pkgconfig glut
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget "http://downloads.sourceforge.net/project/freeglut/freeglut/2.8.0/freeglut-2.8.0.tar.gz?r=http%3A%2F%2Ffreeglut.sourceforge.net%2Findex.php&ts=1352892984&use_mirror=ufpr" freeglut-2.8.0
+}
+
+function ulpm_pack_install {
+	ulpm_dotconfigure --x-includes=$ulpm_prefix/include --x-libraries=$ulpm_prefix/lib
+	for eachDemo in progs/demos/*; do
+		echo "all:" > $eachDemo/Makefile
+		echo "install:" >> $eachDemo/Makefile
+	done
+	export LD_FLAGS=-L$ulpm_prefix/lib
+	export LIBS=$ulpm_prefix/lib/libxcb.so
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip xcb)

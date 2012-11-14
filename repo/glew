@@ -1,0 +1,29 @@
+function ulpm_pack_installed {
+	ulpm_test_pkgconfig glew
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget "http://downloads.sourceforge.net/project/glew/glew/1.9.0/glew-1.9.0.tgz?r=http%3A%2F%2Fglew.sourceforge.net%2F&ts=1352890570&use_mirror=iweb" glew-1.9.0
+}
+
+function ulpm_pack_install {
+	ulpm_patch "
+--- glew/Makefile	2012-08-06 12:59:08.000000000 -0300
++++ glew.b/Makefile	2012-11-14 10:07:03.220549777 -0200
+@@ -40,7 +40,8 @@
+ $(error "Platform '\$(SYSTEM)' not supported")
+ endif
+ 
+-GLEW_DEST ?= /usr
++GLEW_DEST ?= $ulpm_prefix/
++LDFLAGS.EXTRA = -L$ulpm_prefix/lib
+ BINDIR    ?= \$(GLEW_DEST)/bin
+ LIBDIR    ?= \$(GLEW_DEST)/lib
+" || return 1
+
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make gzip xmu libxi)
