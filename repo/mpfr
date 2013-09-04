@@ -4,7 +4,7 @@ function ulpm_pack_installed {
 }
 
 function ulpm_pack_fetch {
-	ulpm_bz2get http://www.mpfr.org/mpfr-current/mpfr-3.1.1.tar.bz2 mpfr-3.1.1
+	ulpm_bz2get http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2 mpfr-3.1.2
 }
 
 function ulpm_pack_install {
