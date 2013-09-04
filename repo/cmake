@@ -1,0 +1,16 @@
+function ulpm_pack_installed {
+	ulpm_check_command "cmake --version"
+	return $?
+}
+
+function ulpm_pack_fetch {
+	ulpm_gzget http://www.cmake.org/files/v2.8/cmake-2.8.11.2.tar.gz cmake-2.8.11.2
+}
+
+function ulpm_pack_install {
+	./bootstrap --prefix=$ulpm_prefix
+	ulpm_make_install
+	return $?
+}
+
+ulpm_pack_dependency=(make bzip2)
